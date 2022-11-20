@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-import javax.sound.sampled.ReverbType;
-
 import model.entities.Reservation;
 
 public class Program {
@@ -34,15 +32,12 @@ public class Program {
 			System.out.print("Check-out date (dd/MM/yyyy): ");
 			checkout = sdf.parse(sc.next());
 			
-			Date now = new Date();
-			if (checkin.before(now) || checkout.after(now)) {
-				System.out.println("Error in reservation: Reservation dates for updates must be future dates");
-			} else if (!checkout.after(checkin)) {
-				System.out.println("Error in reservation: Check-out date must be after Check-in date");
+			String error = reservation.updateDates(checkin, checkout);
+			if (error != null) {
+				System.out.println("Error in reservation: " + error);
 			} else {
-				reservation.updateDates(checkin, checkout);
 				System.out.println("Reservation: " + reservation);
-			}	
+			}				
 		}
 		sc.close();
 	}
